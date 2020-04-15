@@ -1,0 +1,23 @@
+{
+  "name": "mylibrary",
+  "version": "1.0.0",
+  "description": "My Library",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VenkatShiva/mylibrary.git"
+  },
+  "author": "Venkatashiva Avula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VenkatShiva/mylibrary/issues"
+  },
+  "homepage": "https://github.com/VenkatShiva/mylibrary#readme",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "express": "^4.17.1"
+  }
+}
