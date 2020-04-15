@@ -1,0 +1,4 @@
+/node_modules
+/public/js/bootstrap.min.js
+/public/js/jquery-3.4.1.slim.min.js
+/public/js/popper.min.js
