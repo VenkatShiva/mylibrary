@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "PORT=9000 node app.js"
+    "start": "nodemon app.js",
+    "eslint": "./node_modules/.bin/eslint '**/*.js'",
+    "eslint-fix": "./node_modules/.bin/eslint '**/*.js' --fix"
   },
   "repository": {
     "type": "git",
@@ -19,11 +21,24 @@
   "homepage": "https://github.com/VenkatShiva/mylibrary#readme",
   "dependencies": {
     "chalk": "^4.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2"
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^2.0.3"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_module/**/node_modules"
+    ],
+    "delay": 2500,
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 9000
+    }
   }
 }
