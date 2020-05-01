@@ -6,5 +6,8 @@ const ClinetSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   isVerified: { type: Boolean, default: false },
 });
-
-module.exports = { Client: mongoose.model('Client', ClinetSchema), mongoose };
+const OTPSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  otp: { type: Number, required: true },
+});
+module.exports = { Client: mongoose.model('Client', ClinetSchema), mongoose, Otp: mongoose.model('OTP', OTPSchema) };
