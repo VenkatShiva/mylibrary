@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-// venkatashiva.site@gmail.com
+
 function getConnection() {
   try {
     return nodemailer.createTransport({
