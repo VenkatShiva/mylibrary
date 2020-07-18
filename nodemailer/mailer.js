@@ -5,8 +5,8 @@ function getConnection() {
     return nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: '*************************',
-        pass: '******',
+        user: '*********',
+        pass: '*******',
       },
     });
   } catch (err) {
@@ -16,18 +16,24 @@ function getConnection() {
 }
 
 const mailOptions = {
-  from: '*******************',
+  from: 'venkatashiva.site@gmail.com',
   subject: 'Authetication required..!',
 };
-async function sendMail(email) {
-  const options = { ...mailOptions, to: email, text: 'This is your code 12345' };
+async function sendMail(email, otp) {
+  const options = { ...mailOptions, to: email, text: `This is your code ${otp}` };
   const transporter = await getConnection();
   return transporter.sendMail(options);
 }
 
-async function mailService() {
-  const result = await sendMail('*******************');
-  console.log(result);
-}
-
-mailService();
+// async function mailService() {
+//   const result = await sendMail('avenkatashiva@gmail.com', 123456);
+//   if (result && result.acaccepted.indexOf('avenkatashiva@gmail.com') > 0) {
+//     return true;
+//   }
+//   return false;
+//   // console.log(result);
+// }
+// mailService();
+module.exports = {
+  sendMail,
+};

@@ -4,7 +4,7 @@ const secret = 'shivajitheboss';
 async function withAuth(req, res, next) {
   const { shivaToken } = req.cookies;
   // const shivaToken = jwt.sign({ email: 'shiva' }, secret, {
-  //   expiresIn: '1h',
+  //   expiresIn: '24h',
   // });
   if (!shivaToken) {
     res.status(200).send(JSON.stringify({ result: 'unauthrized' }));
@@ -22,7 +22,8 @@ async function withAuth(req, res, next) {
       console.log(decode);
       next();
     } catch (err) {
-      res.status(401).send('Unauthorized: Invalid token');
+      res.clearCookie('shivaToken', { httpOnly: true }).status(200).send(JSON.stringify({ result: 'tockenExpired' }));
+      // res.status(401).send('Unauthorized: Invalid token');
     }
   }
 }
