@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'shivajitheboss';
+const secret = '***********';
 async function withAuth(req, res, next) {
   const { shivaToken } = req.cookies;
   // const shivaToken = jwt.sign({ email: 'shiva' }, secret, {
@@ -19,7 +19,7 @@ async function withAuth(req, res, next) {
     // });
     try {
       const decode = await jwt.verify(shivaToken, secret);
-      console.log(decode);
+      console.log('Decoded token', decode);
       next();
     } catch (err) {
       res.clearCookie('shivaToken', { httpOnly: true }).status(200).send(JSON.stringify({ result: 'tockenExpired' }));

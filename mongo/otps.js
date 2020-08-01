@@ -1,4 +1,4 @@
-const { Otp } = require('./mongodb');
+const { Otp, mongoose } = require('./mongodb');
 
 function registerOtp(email, otp) {
   const regotp = new Otp({ email, otp });
@@ -15,25 +15,31 @@ function deleteOtp(email) {
 }
 
 async function storeOtp(email, otp) {
-  const otpExist = await isOtpExist(email);
-  let result;
-  if (otpExist == null) {
-    result = await registerOtp(email, otp);
+  if (mongoose.connection.readyState === 1) {
+    const otpExist = await isOtpExist(email);
+    let result;
+    if (otpExist == null) {
+      result = await registerOtp(email, otp);
+      // mongoose.connection.close();
+      return { status: 'new', result };
+    }
+    result = await updateOtp(email, otp);
     // mongoose.connection.close();
-    return { status: 'new', result };
+    return { status: 'update', result };
   }
-  result = await updateOtp(email, otp);
-  // mongoose.connection.close();
-  return { status: 'update', result };
+  return false;
 }
 
 async function verifyOtp(email, otp) {
-  const otpSt = await isOtpExist(email);
-  // console.log('--->-->', otpSt, otp);
-  if (otp && otpSt.otp.toString() === otp) {
-    return true;
+  if (mongoose.connection.readyState === 1) {
+    const otpSt = await isOtpExist(email);
+    // console.log('--->-->', otpSt, otp);
+    if (otp && otpSt.otp.toString() === otp) {
+      return true;
+    }
+    return false;
   }
-  return false;
+  return null;
 }
 
 async function deleteOtpFrmDB(email) {

@@ -1,17 +1,25 @@
-const { Client } = require('./mongodb');
+const { Client, mongoose } = require('./mongodb');
+// const { connection } = require('mongoose');
 
 
 async function registerEmail(email, isVerified = false) {
-  const client = new Client({ email, isVerified });
-  const result = await client.save();
-  // mongoose.connection.close();
-  return result;
+  if (mongoose.connection.readyState === 1) {
+    const client = new Client({ email, isVerified });
+    const result = await client.save();
+    // mongoose.connection.close();
+    return result;
+  }
+  return false;
 }
 
 async function isEmailRegestered(email) {
-  const result = await Client.findOne({ email });
+  // console.log('state-->>', mongoose.connection.readyState);
+  if (mongoose.connection.readyState === 1) {
+    const result = await Client.findOne({ email });
+    return result;
+  }
+  return false;
   // mongoose.connection.close();
-  return result;
 }
 // async function testFuns() {
 //   const result = await isEmailRegestered('avenkatashiva@gmail.com');

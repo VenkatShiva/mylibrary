@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 // const jwt = require('jsonwebtoken');
 const withAuth = require('./middlewares/authmiddleware');
 const { authRouter } = require('./apis/authApi');
+const { dataRouter } = require('./apis/dataApi');
 
 const app = express();
 // console.log(dd);
@@ -33,6 +34,7 @@ app.get('/api/', (req, res) => {
   res.status(200).send(JSON.stringify({ result: 'Ok' }));
 });
 
+app.use('/api/data', dataRouter);
 // app.get('/checkToken', withAuth, (req, res) => {
 // });
 
