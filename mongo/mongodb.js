@@ -24,6 +24,7 @@ const NSE500 = new mongoose.Schema({
 
 const TodayMarket = new mongoose.Schema({
   SYMBOL: normalRequiredSettings,
+  SERIES: normlSettings,
   OPEN: normlSettings,
   HIGH: normlSettings,
   LOW: normlSettings,
@@ -35,16 +36,25 @@ const TodayMarket = new mongoose.Schema({
   ISIN: normalRequiredSettings,
 });
 
+const stockDetails = new mongoose.Schema({
+  numberOfStocks: Number,
+  price: Number,
+  stockDate: String,
+});
 const Stock = new mongoose.Schema({
-  isin: { ...normalRequiredSettings, unique: true },
-  number: Number,
+  symbol: { ...normalRequiredSettings, unique: true },
+  allStocks: [
+    stockDetails,
+  ],
 });
-
+const EachPortfolio = new mongoose.Schema({
+  portfolioName: normalRequiredSettings,
+  stockList: [Stock],
+});
 const Portfolio = new mongoose.Schema({
-  name: normalRequiredSettings,
-  stocks: [Stock],
+  email: normalRequiredSettings,
+  allPortfolios: [EachPortfolio],
 });
-
 module.exports = {
   Client: mongoose.model('Client', ClinetSchema),
   mongoose,

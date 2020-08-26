@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = '***********';
 async function withAuth(req, res, next) {
   const { shivaToken } = req.cookies;
+  // console.log('-->>>>', process);
   // const shivaToken = jwt.sign({ email: 'shiva' }, secret, {
   //   expiresIn: '24h',
   // });

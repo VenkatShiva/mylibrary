@@ -16,7 +16,7 @@ function getConnection() {
 }
 
 const mailOptions = {
-  from: 'venkatashiva.site@gmail.com',
+  from: '*********',
   subject: 'Authetication required..!',
 };
 async function sendMail(email, otp) {
@@ -26,8 +26,8 @@ async function sendMail(email, otp) {
 }
 
 // async function mailService() {
-//   const result = await sendMail('avenkatashiva@gmail.com', 123456);
-//   if (result && result.acaccepted.indexOf('avenkatashiva@gmail.com') > 0) {
+//   const result = await sendMail('', 123456);
+//   if (result && result.acaccepted.indexOf('') > 0) {
 //     return true;
 //   }
 //   return false;

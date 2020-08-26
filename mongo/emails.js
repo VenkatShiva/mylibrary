@@ -22,7 +22,7 @@ async function isEmailRegestered(email) {
   // mongoose.connection.close();
 }
 // async function testFuns() {
-//   const result = await isEmailRegestered('avenkatashiva@gmail.com');
+//   const result = await isEmailRegestered('');
 //   console.log(result);
 // }
 // testFuns();

@@ -50,7 +50,7 @@ async function deleteOtpFrmDB(email) {
   return false;
 }
 // async function checkOtp() {
-//   const result = await deleteOtpFrmDB('avenkatashiva@gmail.com', 121089);
+//   const result = await deleteOtpFrmDB('', 121089);
 //   console.log(result);
 // }
 // checkOtp();

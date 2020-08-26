@@ -5,18 +5,24 @@ const fs = require('fs');
 
 const { NSE500, TodayMarket, mongoose } = require('../mongodb');
 
-async function getCSVdata(csvFilePath = 'nse500.csv') {
-  let jsonArray;
+async function getCSVdata(csvFilePath = 'Equityneww.csv') {
+  let jsonArray = []; // `${__dirname}/${csvFilePath}`
   try {
     jsonArray = await csvtojson().fromFile(csvFilePath);
   } catch (err) {
     console.log(err);
   }
+  // for(let i = 0;i < jsonArray.length;i++) {
+  //   if(!jsonArray[i]['Industry']) {
+  //     console.log(jsonArray[i]);
+  //   }
+  // }
   return jsonArray;
 }
 async function insertNSE500toMongo() {
   try {
     const listOfCom = await getCSVdata();
+    console.log(listOfCom);
     const saved = await NSE500.insertMany(listOfCom);
     return saved;
   } catch (err) {
@@ -27,7 +33,7 @@ async function insertNSE500toMongo() {
 
 async function updateNSE500() {
   try {
-    const delteAll = await NSE500.remove({});
+    const delteAll = await NSE500.deleteMany({});
     if (delteAll.ok) {
       const saved = await insertNSE500toMongo();
       console.log('saved-->', saved && saved.length);
@@ -116,6 +122,8 @@ function doMigration() {
 }
 
 doMigration();
+// updateNSE500();
+// getCSVdata();
 // updateTOdayData('16072020.csv');
 
 
@@ -128,4 +136,5 @@ module.exports = {
   NSE500,
   updateNSE500,
   updateTOdayData,
+  doMigration,
 };
