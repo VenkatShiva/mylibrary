@@ -42,7 +42,7 @@ const stockDetails = new mongoose.Schema({
   stockDate: String,
 });
 const Stock = new mongoose.Schema({
-  symbol: { ...normalRequiredSettings, unique: true },
+  symbol: normalRequiredSettings,
   allStocks: [
     stockDetails,
   ],

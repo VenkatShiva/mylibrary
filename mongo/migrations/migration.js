@@ -121,7 +121,7 @@ function doMigration() {
   return true;
 }
 
-doMigration();
+// doMigration();
 // updateNSE500();
 // getCSVdata();
 // updateTOdayData('16072020.csv');

@@ -40,7 +40,7 @@ async function getParticularStocks(symbols) {
 getParticularStocks();
 // eslint-disable-next-line no-unused-vars
 const dummyPortfolio = {
-  email: '',
+  email: '***@gmail.com',
   allPortfolios: [
     {
       portfolioName: "Shiva's Portfolio",
@@ -102,6 +102,16 @@ const dummyPortfolio = {
               numberOfStocks: 6,
               price: 192,
               stockDate: '21-07-2020',
+            },
+            {
+              numberOfStocks: 2,
+              price: 189,
+              stockDate: '01-09-2020',
+            },
+            {
+              numberOfStocks: 4,
+              price: 184,
+              stockDate: '11-09-2020',
             },
           ],
         },
@@ -183,6 +193,16 @@ const dummyPortfolio = {
               price: 14.8,
               stockDate: '24-08-2020',
             },
+            {
+              numberOfStocks: 11,
+              price: 14.9,
+              stockDate: '24-08-2020',
+            },
+            {
+              numberOfStocks: 14,
+              price: 13.99,
+              stockDate: '24-08-2020',
+            },
           ],
         },
         {
@@ -228,6 +248,41 @@ const dummyPortfolio = {
               price: 26.3,
               stockDate: '31-07-2020',
             },
+            {
+              numberOfStocks: 1,
+              price: 32,
+              stockDate: '27-08-2020',
+            },
+            {
+              numberOfStocks: 2,
+              price: 30,
+              stockDate: '27-08-2020',
+            },
+            {
+              numberOfStocks: 7,
+              price: 30.3,
+              stockDate: '27-08-2020',
+            },
+          ],
+        },
+        {
+          symbol: 'SBILIFE',
+          allStocks: [
+            {
+              numberOfStocks: 1,
+              price: 836,
+              stockDate: '27-08-2020',
+            },
+          ],
+        },
+        {
+          symbol: 'HDFCLIFE',
+          allStocks: [
+            {
+              numberOfStocks: 2,
+              price: 580,
+              stockDate: '31-08-2020',
+            },
           ],
         },
       ],
@@ -255,6 +310,7 @@ async function createPortFolio(email, containerPort) {
 async function addPortfolio(email, portfolio) {
   try {
     if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+      // console.log(email, portfolio);
       const existedPortfolios = await Portfolio.findOne({ email });
       if (existedPortfolios) {
         const updated = await Portfolio.updateOne({ email }, {
@@ -273,7 +329,6 @@ async function addPortfolio(email, portfolio) {
     return false;
   }
 }
-// addPortfolio('', dummyPortfolio.allPortfolios[0]);
 async function updatePortFolio(email, data) {
   try {
     const deleted = await Portfolio.deleteMany({ email });
@@ -290,7 +345,7 @@ async function getPortfolios(email) {
   try {
     if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
       const portfolio = await Portfolio.findOne({ email });
-      if (portfolio.allPortfolios) {
+      if (portfolio && portfolio.allPortfolios) {
         allPortfolio = portfolio.allPortfolios;
       }
     }
@@ -299,7 +354,6 @@ async function getPortfolios(email) {
   }
   return allPortfolio;
 }
-// updatePortFolio('', dummyPortfolio);
 async function addStockToPortFolio(name, isin, number) {
   try {
     const updated = await Portfolio.updateOne({ name }, {

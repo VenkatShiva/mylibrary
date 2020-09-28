@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 const {
   getNSE500stocks,
   getPortfolios,
-  getParticularStocks,
   addPortfolio,
   getTodayPrices,
 } = require('../mongo/stockData');
+const { getPortfolioAsreact } = require('../util');
+// const { getRandomNumber } = require('../util');
 
 const dataRouter = express.Router({ mergeParams: true });
 
-const secret = '*********';
+const secret = 'shivajitheboss';
 dataRouter.get('/allstocks', async (_req, res) => {
   try {
     const allStocks = await getNSE500stocks();
@@ -30,50 +31,21 @@ dataRouter.get('/portfolios', async (req, res) => {
   try {
     //
     const { email } = decode;
-    const portfolios = await getPortfolios(email);
+    // const allPortFoliosWithMine = [];
+    let myPortfolios = await getPortfolios('****@gmail.com');
+    let yourPortfolios = [];
+    if (email !== '**@gmail.com') {
+      yourPortfolios = await getPortfolios(email);
+    }
     // const { portfolioName } = portfolios;
-    if (portfolios === false) {
+    if (yourPortfolios === false || myPortfolios === false) {
       res.status(500).send('Internal Error');
     } else {
-      const statePortfolios = [];
-      const allSymbols = [];
-      portfolios.forEach((element) => {
-        const oneport = {};
-        const { portfolioName, stockList } = element;
-        oneport.portfolioName = portfolioName;
-        oneport.stockList = {};
-        // for (let i = 0; i < stockList.length; i += 1) {
-        //   // asd
-        //   const { symbol, allStocks } = stockList[i];
-        //   oneport.stockList[symbol] = {};
-        //   oneport.stockList[symbol].allStocks = allStocks;
-        //   allSymbols.push(symbol);
-        //   // const stockDetails = await getParticularStock(symbol);
-        //   // oneport.stockList[symbol].stock = stockDetails || {};
-        // }
-        stockList.forEach((stock) => {
-          const { symbol, allStocks } = stock;
-          oneport.stockList[symbol] = {};
-          oneport.stockList[symbol].allStocks = allStocks;
-          allSymbols.push(symbol);
-        });
-        statePortfolios.push(oneport);
-      });
-      // console.log('++>>', statePortfolios[0].stockList['HDFCBANK']);
-      const stocksWithDetails = await getParticularStocks(allSymbols);
-      if (stocksWithDetails.length) {
-        statePortfolios.forEach((element) => {
-          const { stockList } = element;
-          const stocks = Object.keys(stockList);
-          for (let x = 0; x < stocks.length; x += 1) {
-            const index = stocksWithDetails.findIndex((elem) => elem.Symbol === stocks[x]);
-            if (index > -1) {
-              stockList[stocks[x]].stock = stocksWithDetails[index];
-            }
-          }
-        });
-      }
-      const response = JSON.stringify({ portfolios: statePortfolios });
+      myPortfolios = await getPortfolioAsreact(myPortfolios);
+      yourPortfolios = await getPortfolioAsreact(yourPortfolios);
+      // const portfolios = [].concat(myPortfolios).concat(yourPortfolios);
+      // const statePortfolios = [];
+      const response = JSON.stringify({ myportfolio: myPortfolios, portfolios: yourPortfolios });
       // console.log(response);
       res.status(200).send(response);
     }

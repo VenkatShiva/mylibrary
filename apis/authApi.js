@@ -6,7 +6,7 @@ const { sendMail } = require('../nodemailer/mailer');
 const { getRandomNumber } = require('../util');
 
 const authRouter = express.Router({ mergeParams: true });
-const secret = '********';
+const secret = 'shivajitheboss';
 
 
 authRouter.post('/', async (req, res) => {

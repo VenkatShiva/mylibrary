@@ -31,14 +31,15 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRouter);
 app.use(withAuth);
 app.get('/api/', (req, res) => {
-  res.status(200).send(JSON.stringify({ result: 'Ok' }));
+  // console.log(req.email);
+  res.status(200).send(JSON.stringify({ result: 'Ok', email: req.email}));
 });
 
 app.use('/api/data', dataRouter);
 // app.get('/checkToken', withAuth, (req, res) => {
 // });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 9000;
 app.listen(port, () => {
   console.log(`Server started and listening on  ${chalk.green(port)}`);
 });
