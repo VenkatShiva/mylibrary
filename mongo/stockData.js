@@ -345,7 +345,7 @@ async function deletePortfolio(email, portfolioName) {
     return false;
   }
 }
-// addPortfolio('avenkatashiva@gmail.com', dummyPortfolio.allPortfolios[0]);
+
 async function updatePortFolio(email, data) {
   try {
     const deleted = await Portfolio.deleteMany({ email });
@@ -371,7 +371,7 @@ async function getPortfolios(email) {
   }
   return allPortfolio;
 }
-// updatePortFolio('avenkatashiva@gmail.com', dummyPortfolio);
+
 async function addStockToPortFolio(name, isin, number) {
   try {
     const updated = await Portfolio.updateOne({ name }, {
