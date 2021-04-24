@@ -129,7 +129,7 @@ function doMigration() {
 }
 
 // doMigration();
-downloadAndUnzip({ filename: 'cm23APR2021bhav.csv.zip', month: 'APR'});
+downloadAndUnzip({ filename: 'cm23APR2021bhav.csv.zip', month: 'APR' });
 // updateNSE500();
 // getCSVdata();
 // updateTOdayData('16072020.csv');
