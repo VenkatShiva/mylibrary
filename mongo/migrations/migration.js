@@ -71,7 +71,8 @@ async function updateTOdayData(path) {
 function generateFilename() {
   const datetime = new Date();
   const day = datetime.getDay();
-  if (day < 1 && day > 5) {
+  console.log('Date,day__.', day);
+  if (day < 1 || day > 5) {
     return false;
   }
   const year = datetime.getFullYear();
@@ -92,12 +93,16 @@ function generateFilename() {
 
 async function downloadAndUnzip(fileinfo) {
   const { filename, month } = fileinfo;
+  console.log('File info-->', fileinfo);
   const filepath = `${__dirname}/today/${filename}`;
   const dirpath = `${__dirname}/today`;
   fs.rmdirSync(dirpath, { recursive: true });
   fs.mkdirSync(dirpath);
+  // https://archives.nseindia.com/content/historical/EQUITIES/2021/APR/cm23APR2021bhav.csv.zip
+  const urlToDownload = `https://archives.nseindia.com/content/historical/EQUITIES/2021/${month}/${filename}`;
+  console.log('Url to download -->', urlToDownload);
   request
-    .get(`http://www1.nseindia.com/content/historical/EQUITIES/2020/${month}/${filename}`)
+    .get(urlToDownload)
     .on('error', (error) => {
       console.log(error);
     })
@@ -115,6 +120,8 @@ async function downloadAndUnzip(fileinfo) {
 
 function doMigration() {
   const filname = generateFilename();
+  console.log('filename-->', filname);
+  // filname.filename = 'cm09OCT2020bhav.csv.zip';
   if (filname) {
     downloadAndUnzip(filname);
   }
@@ -122,6 +129,7 @@ function doMigration() {
 }
 
 // doMigration();
+downloadAndUnzip({ filename: 'cm23APR2021bhav.csv.zip', month: 'APR'});
 // updateNSE500();
 // getCSVdata();
 // updateTOdayData('16072020.csv');

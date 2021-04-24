@@ -1,12 +1,13 @@
 const nodemailer = require('nodemailer');
+const { siteEmail, password } = require('../config');
 
 function getConnection() {
   try {
     return nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: '********gmail.com',
-        pass: '*********',
+        user: siteEmail,
+        pass: password,
       },
     });
   } catch (err) {
@@ -16,7 +17,7 @@ function getConnection() {
 }
 
 const mailOptions = {
-  from: '********gmail.com',
+  from: siteEmail,
   subject: 'Authetication required..!',
 };
 async function sendMail(email, otp) {

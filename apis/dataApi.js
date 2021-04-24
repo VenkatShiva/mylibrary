@@ -4,14 +4,21 @@ const {
   getNSE500stocks,
   getPortfolios,
   addPortfolio,
+  deletePortfolio,
   getTodayPrices,
 } = require('../mongo/stockData');
 const { getPortfolioAsreact } = require('../util');
+const { email: importedEmail } = require('../config');
 // const { getRandomNumber } = require('../util');
 
 const dataRouter = express.Router({ mergeParams: true });
 
 const secret = 'shivajitheboss';
+async function getDecoded(req) {
+  const { shivaToken } = req.cookies;
+  const decode = await jwt.verify(shivaToken, secret);
+  return decode;
+}
 dataRouter.get('/allstocks', async (_req, res) => {
   try {
     const allStocks = await getNSE500stocks();
@@ -32,9 +39,9 @@ dataRouter.get('/portfolios', async (req, res) => {
     //
     const { email } = decode;
     // const allPortFoliosWithMine = [];
-    let myPortfolios = await getPortfolios('****@gmail.com');
+    let myPortfolios = await getPortfolios(importedEmail);
     let yourPortfolios = [];
-    if (email !== '**@gmail.com') {
+    if (email !== importedEmail) {
       yourPortfolios = await getPortfolios(email);
     }
     // const { portfolioName } = portfolios;
@@ -71,6 +78,19 @@ dataRouter.post('/saveportfolio', async (req, res) => {
     res.status(500).send('Internal Error');
   }
 });
+dataRouter.post('/deleteportfolio', async (req, res) => {
+  if (req.body) {
+    const decode = await getDecoded(req);
+    const result = await deletePortfolio(decode.email, req.body.portfolioName);
+    if (result && result.status) {
+      res.status(200).send(JSON.stringify({ success: true }));
+    } else {
+      res.status(500).send('Internal Error');
+    }
+  } else {
+    res.status(500).send('Internal Error');
+  }
+});
 dataRouter.post('/todayprices', async (req, res) => {
   // console.log('----->>><<<<<--------', req.body);
   if (req.body) {
@@ -88,6 +108,7 @@ dataRouter.post('/todayprices', async (req, res) => {
     res.status(500).send('Internal Error');
   }
 });
+
 module.exports = {
   dataRouter,
 };

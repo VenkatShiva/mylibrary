@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const withAuth = require('./middlewares/authmiddleware');
 const { authRouter } = require('./apis/authApi');
 const { dataRouter } = require('./apis/dataApi');
+const { portFromCOnnfig } = require('./config');
 
 const app = express();
 // console.log(dd);
@@ -32,14 +33,14 @@ app.use('/api/auth', authRouter);
 app.use(withAuth);
 app.get('/api/', (req, res) => {
   // console.log(req.email);
-  res.status(200).send(JSON.stringify({ result: 'Ok', email: req.email}));
+  res.status(200).send(JSON.stringify({ result: 'Ok', email: req.email }));
 });
 
 app.use('/api/data', dataRouter);
 // app.get('/checkToken', withAuth, (req, res) => {
 // });
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || portFromCOnnfig || 9000;
 app.listen(port, () => {
   console.log(`Server started and listening on  ${chalk.green(port)}`);
 });

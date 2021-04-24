@@ -1,7 +1,7 @@
 const {
   NSE500, Portfolio, TodayMarket, mongoose,
 } = require('./mongodb');
-
+const { email: importedEmail } = require('../config');
 
 async function getNSE500stocks() {
   let dataNSE500 = [];
@@ -40,7 +40,7 @@ async function getParticularStocks(symbols) {
 getParticularStocks();
 // eslint-disable-next-line no-unused-vars
 const dummyPortfolio = {
-  email: '***@gmail.com',
+  email: importedEmail,
   allPortfolios: [
     {
       portfolioName: "Shiva's Portfolio",
@@ -329,6 +329,23 @@ async function addPortfolio(email, portfolio) {
     return false;
   }
 }
+async function deletePortfolio(email, portfolioName) {
+  try {
+    if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+      const updated = await Portfolio.findOneAndUpdate({ email }, {
+        $pull: {
+          allPortfolios: { portfolioName },
+        },
+      });
+      return { status: true, updated };
+    }
+    return false;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+// addPortfolio('avenkatashiva@gmail.com', dummyPortfolio.allPortfolios[0]);
 async function updatePortFolio(email, data) {
   try {
     const deleted = await Portfolio.deleteMany({ email });
@@ -354,6 +371,7 @@ async function getPortfolios(email) {
   }
   return allPortfolio;
 }
+// updatePortFolio('avenkatashiva@gmail.com', dummyPortfolio);
 async function addStockToPortFolio(name, isin, number) {
   try {
     const updated = await Portfolio.updateOne({ name }, {
@@ -433,4 +451,5 @@ module.exports = {
   getParticularStocks,
   addPortfolio,
   getTodayPrices,
+  deletePortfolio,
 };
