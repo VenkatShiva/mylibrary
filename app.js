@@ -17,17 +17,17 @@ const app = express();
 //   optionsSuccessStatus: 200,
 // };
 app.use(express.static(path.join(__dirname, 'build')));
-const whitelist = ['http://18.219.30.68:3000', /** other domains if any */ ]
+const whitelist = ['http://18.219.30.68:3000'];
 const corsOptions = {
   credentials: true,
-  origin: function(origin, callback) {
+  origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error('Not allowed by CORS'));
     }
-  }
-}
+  },
+};
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -36,10 +36,6 @@ app.use((req, _res, next) => {
   const fullUrl = `${req.method} : ${req.protocol}://${req.get('host')}${req.originalUrl}`;
   console.log(fullUrl);
   next();
-});
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use((req, res, next) => {
