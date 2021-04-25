@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 // const jwt = require('jsonwebtoken');
 const withAuth = require('./middlewares/authmiddleware');
 const { authRouter } = require('./apis/authApi');
@@ -15,7 +16,19 @@ const app = express();
 //   origin: ' http://localhost:3000',
 //   optionsSuccessStatus: 200,
 // };
-app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')));
+const whitelist = ['http://18.219.30.68:3000', /** other domains if any */ ]
+const corsOptions = {
+  credentials: true,
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use((req, _res, next) => {
@@ -23,6 +36,10 @@ app.use((req, _res, next) => {
   const fullUrl = `${req.method} : ${req.protocol}://${req.get('host')}${req.originalUrl}`;
   console.log(fullUrl);
   next();
+});
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.use((req, res, next) => {

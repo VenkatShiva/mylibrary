@@ -5,7 +5,7 @@ const fs = require('fs');
 
 const { NSE500, TodayMarket, mongoose } = require('../mongodb');
 
-async function getCSVdata(csvFilePath = 'Equityneww.csv') {
+async function getCSVdata(csvFilePath = 'equity500.csv') {
   let jsonArray = []; // `${__dirname}/${csvFilePath}`
   try {
     jsonArray = await csvtojson().fromFile(csvFilePath);
@@ -22,8 +22,13 @@ async function getCSVdata(csvFilePath = 'Equityneww.csv') {
 async function insertNSE500toMongo() {
   try {
     const listOfCom = await getCSVdata();
-    console.log(listOfCom);
-    const saved = await NSE500.insertMany(listOfCom);
+    const safeData = [];
+    for (let i = 0; i < listOfCom.length; i++) {
+      if (listOfCom[i]['Company Name'] && listOfCom[i]['Industry'] && listOfCom[i]['Symbol'] && listOfCom[i]['ISIN Code']) {
+        safeData.push(listOfCom[i]);
+      }
+    }
+    const saved = await NSE500.insertMany(safeData);
     return saved;
   } catch (err) {
     console.log(err);
@@ -129,8 +134,8 @@ function doMigration() {
 }
 
 // doMigration();
-downloadAndUnzip({ filename: 'cm23APR2021bhav.csv.zip', month: 'APR' });
-// updateNSE500();
+// downloadAndUnzip({ filename: 'cm23APR2021bhav.csv.zip', month: 'APR' });
+updateNSE500();
 // getCSVdata();
 // updateTOdayData('16072020.csv');
 
