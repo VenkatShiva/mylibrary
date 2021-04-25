@@ -21,10 +21,12 @@ const whitelist = [machineAddress];
 const corsOptions = {
   credentials: true,
   origin(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (!origin) {
+      callback(null, true);
+    } else if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'), false);
     }
   },
 };
@@ -42,14 +44,14 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
-app.use('/api/auth', authRouter);
+app.use('/auth', authRouter);
 app.use(withAuth);
-app.get('/api/', (req, res) => {
+app.get('/', (req, res) => {
   // console.log(req.email);
   res.status(200).send(JSON.stringify({ result: 'Ok', email: req.email }));
 });
 
-app.use('/api/data', dataRouter);
+app.use('/data', dataRouter);
 // app.get('/checkToken', withAuth, (req, res) => {
 // });
 
