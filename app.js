@@ -8,7 +8,7 @@ const path = require('path');
 const withAuth = require('./middlewares/authmiddleware');
 const { authRouter } = require('./apis/authApi');
 const { dataRouter } = require('./apis/dataApi');
-const { portFromCOnnfig } = require('./config');
+const { port: portFromCOnnfig, machineAddress } = require('./config');
 
 const app = express();
 // console.log(dd);
@@ -17,7 +17,7 @@ const app = express();
 //   optionsSuccessStatus: 200,
 // };
 app.use(express.static(path.join(__dirname, 'build')));
-const whitelist = ['http://18.219.30.68:3000'];
+const whitelist = [machineAddress];
 const corsOptions = {
   credentials: true,
   origin(origin, callback) {
