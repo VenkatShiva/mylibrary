@@ -41,6 +41,7 @@ app.use('/api/data', dataRouter);
 // });
 
 const port = process.env.PORT || portFromCOnnfig || 9000;
+console.log('Port-->', process.env.PORT);
 app.listen(port, () => {
   console.log(`Server started and listening on  ${chalk.green(port)}`);
 });

@@ -43,10 +43,6 @@
     "ignore": [
       "node_module/**/node_modules"
     ],
-    "delay": 2500,
-    "env": {
-      "NODE_ENV": "development",
-      "PORT": 9000
-    }
+    "delay": 2500
   }
 }
