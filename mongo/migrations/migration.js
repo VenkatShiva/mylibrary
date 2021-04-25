@@ -23,8 +23,8 @@ async function insertNSE500toMongo() {
   try {
     const listOfCom = await getCSVdata();
     const safeData = [];
-    for (let i = 0; i < listOfCom.length; i++) {
-      if (listOfCom[i]['Company Name'] && listOfCom[i]['Industry'] && listOfCom[i]['Symbol'] && listOfCom[i]['ISIN Code']) {
+    for (let i = 0; i < listOfCom.length; i += 1) {
+      if (listOfCom[i]['Company Name'] && listOfCom[i].Industry && listOfCom[i].Symbol && listOfCom[i]['ISIN Code']) {
         safeData.push(listOfCom[i]);
       }
     }
