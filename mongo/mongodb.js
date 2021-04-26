@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
+const { mongoUri } = require('../config');
 
-let mongoUri = 'mongodb://localhost:27017/shiva';
-if (process.env.prod) {
-  mongoUri = 'mongodb+srv://shiva:shiva@cluster0.db69m.mongodb.net/shiva';
-}
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
