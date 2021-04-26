@@ -10,19 +10,12 @@ const { dataRouter } = require('./apis/dataApi');
 const { port: portFromCOnnfig, machineAddress } = require('./config');
 
 const app = express();
-// console.log(dd);
-// const corsOptions = {
-//   origin: ' http://localhost:3000',
-//   optionsSuccessStatus: 200,
-// };
-// app.use(express.static(path.join(__dirname, 'build')));
-const whitelist = [machineAddress];
 const corsOptions = {
   credentials: true,
   origin(origin, callback) {
     if (!origin) {
       callback(null, true);
-    } else if (whitelist.indexOf(origin) !== -1) {
+    } else if (machineAddress.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'), false);
