@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const path = require('path');
 // const jwt = require('jsonwebtoken');
 const withAuth = require('./middlewares/authmiddleware');
 const { authRouter } = require('./apis/authApi');
