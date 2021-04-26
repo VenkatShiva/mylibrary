@@ -16,7 +16,7 @@ const app = express();
 //   origin: ' http://localhost:3000',
 //   optionsSuccessStatus: 200,
 // };
-app.use(express.static(path.join(__dirname, 'build')));
+// app.use(express.static(path.join(__dirname, 'build')));
 const whitelist = [machineAddress];
 const corsOptions = {
   credentials: true,
